@@ -24,6 +24,7 @@
       "@hooks/*": ["./src/hooks/*"],
       "@services/*": ["./src/services/*"],
       "@styles/*": ["./src/styles/*"],
+      "@assets/*": ["./src/assets/*"],
     }
   },
   "include": [

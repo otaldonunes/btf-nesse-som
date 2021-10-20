@@ -1,16 +1,12 @@
-## Project Name
+## Boto Fé Nesse Som
 
 ## Figma
 
-1. `figma link`
-
-## GDrive
-
-1. `gdrive link`
+1. `https://www.figma.com/file/eEaBIRb1nyxkwiUVYD0Vui/BOTO-F%C3%89-NESSE-SOM?node-id=0%3A1`
 
 ## Git Clone
 
-1.  `git clone -b devel ssh-here`.
+1.  `git clone -b devel git@github.com:otaldonunes/btf-nesse-som.git`.
 
 ## Git Flow
 
