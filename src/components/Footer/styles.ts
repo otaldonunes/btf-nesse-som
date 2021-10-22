@@ -39,7 +39,6 @@ export const Content = styled.div`
       justify-content: space-around;
 
       a {
-        cursor: pointer;
         color: inherit;
         text-decoration: inherit;
         display: flex;

@@ -1,9 +1,11 @@
 import { Footer } from '@components/Footer';
+import { Header } from '@components/Header';
 import { Container, Content } from './styles';
 
 export default function NotFound(): JSX.Element {
   return (
     <>
+      <Header />
       <Container>
         <Content>
           <p>ERROR</p>

@@ -5,6 +5,7 @@ export const Container = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5rem 0;
 `;
 
 export const Content = styled.div`
@@ -35,7 +36,7 @@ export const Content = styled.div`
     &:last-child {
       font-size: 1.5rem;
       font-weight: 400;
-      margin: 1rem 0 4rem;
+      margin: 1rem 0;
     }
 
     &:nth-child(2) {
