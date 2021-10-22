@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.main`
   width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,7 +35,7 @@ export const Content = styled.div`
     &:last-child {
       font-size: 1.5rem;
       font-weight: 400;
-      margin-top: 1rem;
+      margin: 1rem 0 4rem;
     }
 
     &:nth-child(2) {
