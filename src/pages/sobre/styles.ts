@@ -30,20 +30,4 @@ export const Content = styled.div`
     font-weight: 300;
     font-size: 1rem;
   }
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
-
-    a {
-      color: inherit;
-      text-decoration: inherit;
-
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
-  }
 `;
