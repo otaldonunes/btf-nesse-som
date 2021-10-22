@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.main`
   width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5rem 0;
 `;
 
 export const Content = styled.div`
@@ -36,7 +36,7 @@ export const Content = styled.div`
     &:last-child {
       font-size: 1.5rem;
       font-weight: 400;
-      margin-top: 1rem;
+      margin: 1rem 0;
     }
 
     &:nth-child(2) {
