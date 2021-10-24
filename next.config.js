@@ -1,7 +1,5 @@
 const withImages = require('next-images');
 
-module.exports = {
+module.exports = withImages({
   reactStrictMode: true,
-};
-
-module.exports = withImages();
+});

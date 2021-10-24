@@ -20,6 +20,8 @@ export const Content = styled.div`
   h1 {
     font-weight: 700;
     font-size: 2.25rem;
+    letter-spacing: 0.1rem;
+    padding-left: 0.1rem;
   }
 
   p {
@@ -29,21 +31,5 @@ export const Content = styled.div`
     color: var(--black);
     font-weight: 300;
     font-size: 1rem;
-  }
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
-
-    a {
-      color: inherit;
-      text-decoration: inherit;
-
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
   }
 `;

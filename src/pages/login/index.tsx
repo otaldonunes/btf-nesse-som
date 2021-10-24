@@ -19,7 +19,7 @@ export default function Login(): JSX.Element {
         />
         <form onSubmit={handleSubmit}>
           <div className="formContainer">
-            <div className="inputsContainer">
+            <div>
               <input type="text" id="user" placeholder="usuário" />
               <input type="password" id="password" placeholder="senha" />
             </div>
