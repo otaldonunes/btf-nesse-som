@@ -6,7 +6,7 @@ import {
 } from 'react-icons/ri';
 import { Container } from './styles';
 
-export function SocialLinks() {
+export function SocialLinks(): JSX.Element {
   const svgSize = '2.5em';
 
   return (

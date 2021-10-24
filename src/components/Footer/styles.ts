@@ -49,6 +49,7 @@ export const Content = styled.div`
         p {
           font-size: 0.875rem;
           font-weight: 600;
+          transition: color 0.2s ease-in-out;
 
           &:hover {
             color: ${shade(0.2, '#fff')};

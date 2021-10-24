@@ -9,6 +9,7 @@ export const Container = styled.div`
   a {
     color: inherit;
     text-decoration: inherit;
+    transition: transform 0.2s ease-in-out;
 
     &:hover {
       transform: scale(1.2);

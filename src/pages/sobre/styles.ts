@@ -20,6 +20,8 @@ export const Content = styled.div`
   h1 {
     font-weight: 700;
     font-size: 2.25rem;
+    letter-spacing: 0.1rem;
+    padding-left: 0.1rem;
   }
 
   p {

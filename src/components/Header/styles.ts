@@ -32,6 +32,7 @@ export const Content = styled.div`
       text-decoration: inherit;
       font-weight: 600;
       font-size: 1.125rem;
+      transition: color 0.2s ease-in-out;
 
       &:hover {
         color: ${shade(0.2, '#fff')};

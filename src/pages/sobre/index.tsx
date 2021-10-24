@@ -3,7 +3,7 @@ import { Header } from '@components/Header';
 import { Footer } from '@components/Footer';
 import { SocialLinks } from '@components/Sobre/SocialLinks';
 
-export default function Sobre() {
+export default function Sobre(): JSX.Element {
   return (
     <>
       <Header />
