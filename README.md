@@ -24,7 +24,8 @@
     <br />
     🚧 Work in Progress 🚧
     <br />
-    protótipo cedido gentilmente pela .comUNIQUÉ, responsável pela concepção e criação de todo layout/ui/ux, para que eu pudesse demonstrar minhas hábilidades de desenvolvimento. (P.s.: os códigos aqui presentes não refletem o projeto final em produção desenvolvido pela empresa e são exclusivamente meus, também tomei a liberdade de realizar algumas modificações que julguei pertinentes)
+    <br />
+    Protótipo cedido gentilmente pela .comUNIQUÉ, responsável pela concepção e criação de todo layout/ui/ux, para que eu pudesse demonstrar minhas hábilidades de                     desenvolvimento. (P.s.: os códigos aqui presentes não refletem o projeto final em produção desenvolvido pela empresa e são exclusivamente meus, também tomei a liberdade de       realizar algumas modificações que julguei pertinentes)
     <br />
      <br />
     <a href="https://github.com/otaldonunes/btf-nesse-som">View Demo</a>
