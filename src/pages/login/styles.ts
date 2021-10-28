@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
 
+type inputProps = {
+  isInvalid: boolean;
+};
+
+const pink = '#ff009a';
+
 export const Container = styled.main`
   width: 100vw;
   height: 100vh;
@@ -60,20 +66,6 @@ export const Content = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
-
-      input {
-        border-radius: 0.5rem;
-        color: #b0b0b0;
-        font-size: 1.5rem;
-        font-weight: 300;
-        line-height: 2.25rem;
-        padding: 0.5rem 0.75rem;
-        border: none;
-
-        ::placeholder {
-          color: #b0b0b0;
-        }
-      }
     }
 
     button {
@@ -92,8 +84,23 @@ export const Content = styled.div`
       transition: background 0.2s ease-in-out;
 
       &:hover {
-        background: ${shade(0.2, '#ff009a')};
+        background: ${shade(0.2, pink)};
       }
     }
+  }
+`;
+
+export const Input = styled.input.attrs((props: inputProps) => ({
+  border: props.isInvalid === true ? '2px solid #ff0000' : 'none',
+}))<inputProps>`
+  border-radius: 0.5rem;
+  color: #b0b0b0;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 2.25rem;
+  padding: 0.5rem 0.75rem;
+
+  ::placeholder {
+    color: #b0b0b0;
   }
 `;

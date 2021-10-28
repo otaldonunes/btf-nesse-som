@@ -25,6 +25,9 @@
     🚧 Work in Progress 🚧
     <br />
     <br />
+    Protótipo cedido gentilmente pela .comUNIQUÉ, responsável pela concepção e criação de todo layout/ui/ux, para que eu pudesse demonstrar minhas hábilidades de                     desenvolvimento. (P.s.: os códigos aqui presentes não refletem o projeto final em produção desenvolvido pela empresa e são exclusivamente meus, também tomei a liberdade de       realizar algumas modificações que julguei pertinentes)
+    <br />
+     <br />
     <a href="https://github.com/otaldonunes/btf-nesse-som">View Demo</a>
     ·
     <a href="https://github.com/otaldonunes/btf-nesse-som/issues">Report Bug</a>
@@ -73,6 +76,7 @@
 * [axios](https://axios-http.com/docs/intro)
 * [yup](https://github.com/jquense/yup)
 * [React Hook Form](https://react-hook-form.com/)
+* [React-Toastify](https://github.com/fkhadra/react-toastify)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
