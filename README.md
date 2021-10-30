@@ -131,7 +131,7 @@ To get a local copy up and running follow these simple example steps.
 - [ ] Página de Lançamentos da Semana
 - [ ] Página Sobre
 - [ ] Integração com Rádio Online
-- [ ] Página de Autenticação
+- [X] Página de Autenticação
 - [ ] Área Administrativa com CMS
 
 
