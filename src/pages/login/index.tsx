@@ -6,6 +6,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
+import nookies from 'nookies';
+import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
 
 type LoginFormData = {
   user: string;
@@ -22,6 +25,7 @@ export default function Login(): JSX.Element {
     resolver: yupResolver(LoginSchema),
   });
   const { errors } = formState;
+  const router = useRouter();
 
   !!errors.user &&
     toast.error(errors.user.message, {
@@ -33,8 +37,32 @@ export default function Login(): JSX.Element {
       toastId: 'password-error',
     });
 
-  const handleLogin: SubmitHandler<LoginFormData> = (values) => {
-    console.log(values);
+  const handleLogin: SubmitHandler<LoginFormData> = async (values) => {
+    const { user, password } = values;
+
+    try {
+      const response = await api.post('/api/login', {
+        user,
+        password,
+      });
+
+      const { token } = response.data;
+
+      nookies.set(null, 'token', token, {
+        maxAge: 60 * 60 * 24 * 7, // 1 week
+        path: '/',
+      });
+
+      toast.success('Login realizado com sucesso!');
+
+      router.push('/adm');
+    } catch (err) {
+      const { message } = err.response.data;
+
+      toast.error(message, {
+        toastId: 'login-error',
+      });
+    }
   };
 
   return (
@@ -71,4 +99,21 @@ export default function Login(): JSX.Element {
       </Content>
     </Container>
   );
+}
+
+export async function getStaticProps(context: GetStaticProps) {
+  const { token } = nookies.get(context);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: '/adm',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
