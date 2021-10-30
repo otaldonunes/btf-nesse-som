@@ -107,7 +107,11 @@ To get a local copy up and running follow these simple example steps.
 3. Create a `.env.local` file in root directory and enter your API keys in `.env.local`
    ```js
    # FaunaDB:
-   FAUNADB_KEY='ENTER YOUR API'
+   FAUNADB_KEY='API_KEY'
+   FAUNADB_DOMAIN="FAUNA_DOMAIN"
+
+   # JWT
+   JWT_SECRET="JWT_SECRET"
    ```
 4. Start development server
 	```
@@ -127,7 +131,7 @@ To get a local copy up and running follow these simple example steps.
 - [ ] Página de Lançamentos da Semana
 - [ ] Página Sobre
 - [ ] Integração com Rádio Online
-- [ ] Página de Autenticação
+- [X] Página de Autenticação
 - [ ] Área Administrativa com CMS
 
 
