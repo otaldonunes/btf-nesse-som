@@ -76,6 +76,7 @@
 * [axios](https://axios-http.com/docs/intro)
 * [yup](https://github.com/jquense/yup)
 * [React Hook Form](https://react-hook-form.com/)
+* [React-Toastify](https://github.com/fkhadra/react-toastify)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

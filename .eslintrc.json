@@ -8,7 +8,8 @@
     "plugin:react/recommended",
     "airbnb",
     "airbnb/hooks",
-    "prettier"
+    "prettier",
+    "plugin:import/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -18,9 +19,13 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "simple-import-sort", "better-styled-components"],
+  "plugins": ["react", "prettier", "simple-import-sort", "import", "better-styled-components"],
   "rules": {
-    "simple-import-sort/sort": "warn",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
     "better-styled-components/sort-declarations-alphabetically": 2,
     "react/jsx-filename-extension": [
       "error",
