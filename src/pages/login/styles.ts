@@ -68,6 +68,13 @@ export const Content = styled.div`
       gap: 1.25rem;
     }
 
+    span {
+      position: 'fixed';
+      top: '50%';
+      left: '50%';
+      transform: translate(-50%, -50%);
+    }
+
     button {
       border: none;
       cursor: pointer;
@@ -80,11 +87,17 @@ export const Content = styled.div`
       font-size: 1.75rem;
       line-height: 2.5rem;
       width: 90%;
+      /* height: 4rem; */
       padding: 0.75rem 0;
       transition: background 0.2s ease-in-out;
 
       &:hover {
         background: ${shade(0.2, pink)};
+      }
+
+      &:disabled {
+        background: '#ff009a';
+        cursor: not-allowed;
       }
     }
   }

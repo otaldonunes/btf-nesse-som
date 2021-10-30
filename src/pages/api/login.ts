@@ -21,6 +21,11 @@ export default async function handlerLogin(
   }
 
   const { user, password } = req.body;
+  const { Authorization } = req.headers;
+
+  if (Authorization) {
+    return res.status(401).json({ message: 'Já está logado!' });
+  }
 
   if (!user || !password) {
     return res.status(400).json({ message: 'O campo usuário é obrigatório!' });
@@ -67,7 +72,6 @@ export default async function handlerLogin(
 
     return res.status(200).json({ token });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: err });
   }
 }
