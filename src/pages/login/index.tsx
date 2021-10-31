@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Content, Input } from './styles';
 import logo from '@assets/images/logo.svg';
 import { api } from '@services/api';
@@ -7,8 +7,9 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
 import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { GetStaticProps } from 'next';
 
 type LoginFormData = {
   user: string;
@@ -21,11 +22,12 @@ const LoginSchema = yup.object().shape({
 });
 
 export default function Login(): JSX.Element {
-  const { register, handleSubmit, formState, reset } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(LoginSchema),
   });
   const { errors } = formState;
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   !!errors.user &&
     toast.error(errors.user.message, {
@@ -40,7 +42,13 @@ export default function Login(): JSX.Element {
   const handleLogin: SubmitHandler<LoginFormData> = async (values) => {
     const { user, password } = values;
 
+    setIsLoading(true);
+
     try {
+      toast('🦄 Logando...', {
+        toastId: 'login-try',
+      });
+
       const response = await api.post('/api/login', {
         user,
         password,
@@ -53,12 +61,16 @@ export default function Login(): JSX.Element {
         path: '/',
       });
 
+      setIsLoading(false);
+      toast.dismiss();
       toast.success('Login realizado com sucesso!');
 
-      router.push('/adm');
+      return router.push('/adm');
     } catch (err) {
       const { message } = err.response.data;
 
+      setIsLoading(false);
+      toast.dismiss();
       toast.error(message, {
         toastId: 'login-error',
       });
@@ -93,7 +105,9 @@ export default function Login(): JSX.Element {
                 {...register('password')}
               />
             </div>
-            <button type="submit">Entrar</button>
+            <button type="submit" disabled={isLoading}>
+              Entrar
+            </button>
           </div>
         </form>
       </Content>
@@ -101,8 +115,8 @@ export default function Login(): JSX.Element {
   );
 }
 
-export async function getStaticProps(context: GetStaticProps) {
-  const { token } = nookies.get(context);
+export async function getServerSideProps(ctx: GetServerSideProps) {
+  const { token } = nookies.get(ctx);
 
   if (token) {
     return {
@@ -110,6 +124,7 @@ export async function getStaticProps(context: GetStaticProps) {
         destination: '/adm',
         permanent: false,
       },
+      props: {},
     };
   }
 
