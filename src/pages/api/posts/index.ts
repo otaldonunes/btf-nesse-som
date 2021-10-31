@@ -1,15 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Documents, query as q } from 'faunadb';
-import { fauna } from '@services/fauna';
-import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
-import slugify from 'react-slugify';
-
-interface postsData {
-  data: postProps;
-}
+import { validateToken } from '@utils/validateToken';
+import { insertPost } from '@services/posts/insertPost';
+import { getPosts } from '@services/posts/getPosts';
 
 interface postProps {
   readonly _id: string;
@@ -28,66 +20,32 @@ export default async function handlerPosts(
 ) {
   const { method } = req;
 
-  const validateToken = (req: NextApiRequest, res: NextApiResponse) => {
-    const { authorization } = req.headers;
-
-    if (!authorization) {
-      return res.status(401).json({
-        message: 'Unauthorized',
-      });
-    }
-
-    try {
-      jwt.verify(authorization, process.env.JWT_SECRET);
-    } catch {
-      return res.status(401).json({
-        message: 'Unauthorized',
-      });
-    }
-  };
-
   const getAllPosts = async (res: NextApiResponse) => {
     try {
-      const posts: postsData = await fauna.query(
-        q.Map(
-          q.Paginate(Documents(q.Collection('posts'))),
-          q.Lambda('x', q.Get(q.Var('x'))),
-        ),
-      );
+      const posts = await getPosts();
 
-      return res.status(200).json(posts.data);
+      return res.status(200).json(posts);
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
   };
 
   const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
-    validateToken(req, res);
-
+    const { authorization } = req.headers;
     const { title, content, author, tags }: postProps = req.body;
 
-    if (!title || !content || !author || !tags) {
-      return res.status(400).json({ message: 'Bad Request' });
-    }
-
     try {
-      const post: postsData = {
-        data: {
-          _id: uuidv4(),
-          title,
-          slug: slugify(title),
-          content,
-          author,
-          createdAt: format(new Date(), 'T', { locale: ptBR }),
-          tags,
-        },
-      };
+      validateToken(authorization);
 
-      await fauna.query(q.Create(q.Collection('posts'), post));
+      try {
+        const newPost = await insertPost(title, content, author, tags);
 
-      return res.status(201).json(post.data);
+        return res.status(201).json(newPost.data);
+      } catch (err) {
+        return res.status(400).json({ message: err.message });
+      }
     } catch (err) {
-      return res.status(500).json({ message: err.message });
+      return res.status(401).json({ message: err.message });
     }
   };
 
