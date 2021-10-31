@@ -1,21 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { query as q } from 'faunadb';
-import { fauna } from '@services/fauna';
-import jwt from 'jsonwebtoken';
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
-import slugify from 'react-slugify';
+import { validateToken } from '@utils/validateToken';
+import { getPosts } from '@services/posts/getPosts';
+import { updatePostById } from '@services/posts/updatePostById';
+import { deletePostById } from '@services/posts/deletePostById';
 
 interface postsData {
   data: postProps;
 }
 
-interface postProps {
+interface reqProps {
   title: string;
-  slug: string;
-  content: HTMLElement;
+  content: string;
   author: string;
-  updatedAt?: string;
   tags: Array<string>;
 }
 
@@ -25,37 +21,12 @@ export default async function handlerPosts(
 ) {
   const { method } = req;
 
-  const validateToken = (req: NextApiRequest, res: NextApiResponse) => {
-    const { authorization } = req.headers;
-
-    if (!authorization) {
-      return res.status(401).json({
-        message: 'Unauthorized',
-      });
-    }
-
-    try {
-      jwt.verify(authorization, process.env.JWT_SECRET);
-    } catch {
-      return res.status(401).json({
-        message: 'Unauthorized',
-      });
-    }
-  };
-
   const getPostById = async (req: NextApiRequest, res: NextApiResponse) => {
     const { slug } = req.query;
 
-    if (!slug) {
-      return res.status(400).json({
-        message: 'Bad Request',
-      });
-    }
-
     try {
-      const post: postsData = await fauna.query(
-        q.Get(q.Match(q.Index('post_by_slug'), slug)),
-      );
+      const post = await getPosts(slug);
+
       return res.status(200).json(post.data);
     } catch (err) {
       return res.status(500).json({ message: err.message });
@@ -63,59 +34,45 @@ export default async function handlerPosts(
   };
 
   const updatePost = async (req: NextApiRequest, res: NextApiResponse) => {
-    validateToken(req, res);
-
-    const { slug } = req.query;
-
-    if (!slug) {
-      return res.status(400).json({
-        message: 'Bad Request',
-      });
-    }
-
-    const { title, content, author, tags }: postProps = req.body;
-
-    if (!title || !content || !author || !tags) {
-      return res.status(400).json({ message: 'Bad Request' });
-    }
+    const { title, content, author, tags }: reqProps = req.body;
+    const { authorization } = req.headers;
+    const { slug }: { slug?: string | string[] } = req.query;
 
     try {
-      const post: postsData = {
-        data: {
+      validateToken(authorization);
+
+      try {
+        const updatedPost = await updatePostById(
+          slug,
           title,
-          slug: slugify(title),
           content,
           author,
-          updatedAt: format(new Date(), 'T', { locale: ptBR }),
           tags,
-        },
-      };
+        );
 
-      await fauna.query(q.Update(q.Ref(q.Collection('posts'), slug), post));
-
-      return res.status(200).json(post.data);
+        return res.status(201).json(updatedPost.data);
+      } catch (err) {
+        return res.status(500).json({ message: err.message });
+      }
     } catch (err) {
-      return res.status(500).json({ message: err.message });
+      return res.status(401).json({ message: err.message });
     }
   };
 
   const deletePost = async (req: NextApiRequest, res: NextApiResponse) => {
-    validateToken(req, res);
-
+    const { authorization } = req.headers;
     const { slug } = req.query;
 
-    if (!slug) {
-      return res.status(400).json({
-        message: 'Bad Request',
-      });
-    }
-
     try {
-      const post: postsData = await fauna.query(
-        q.Delete(q.Ref(q.Collection('posts'), slug)),
-      );
+      validateToken(authorization);
 
-      return res.status(200).json(post.data);
+      try {
+        const deletedPost = await deletePostById(slug);
+
+        return res.status(200).json(deletedPost.data);
+      } catch (err) {
+        return res.status(500).json({ message: err.message });
+      }
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
