@@ -5,36 +5,16 @@ import { usePosts } from '@hooks/usePosts';
 import React, { useState } from 'react';
 import { Container, Content, DrawerContent } from './styles';
 import bg1 from '@assets/images/bg1.svg';
-import logo from '@assets/images/logo.svg';
-import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
-import {
-  RiMenuFill,
-  RiLogoutBoxRLine,
-  RiVideoLine,
-  RiMicLine,
-  RiArticleLine,
-  RiMusic2Line,
-} from 'react-icons/ri';
-import { destroyCookie } from 'nookies';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import { RiMenuFill } from 'react-icons/ri';
+import { DrawerMenu } from '@components/Adm/DrawerMenu';
 
 export default function Admin() {
   const { data, isLoading, isFetching, error } = usePosts();
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-  const router = useRouter();
 
   const toggleDrawer = () => {
     setIsDrawerOpen((prevState) => !prevState);
-  };
-
-  const handleLogout = () => {
-    toast('👋 Deslogando...', {
-      toastId: 'logout',
-    });
-    destroyCookie(null, 'token');
-    router.push('/');
   };
 
   return (
@@ -44,43 +24,7 @@ export default function Admin() {
           <RiMenuFill color="#FFFFFF" size="2rem" onClick={toggleDrawer} />
         </button>
       ) : null}
-      <Drawer
-        open={isDrawerOpen}
-        onClose={toggleDrawer}
-        direction="left"
-        style={{}}
-      >
-        <DrawerContent>
-          <div className="imageContent">
-            <img src={logo} alt="logo" />
-          </div>
-          <nav>
-            <button type="button">
-              <RiArticleLine color="#350668" size="1.5rem" />
-              <p>Publicações</p>
-            </button>
-            <button type="button">
-              <RiMicLine color="#350668" size="1.5rem" />
-              <p>Podcats</p>
-            </button>
-            <button type="button">
-              <RiVideoLine color="#350668" size="1.5rem" />
-              <p>Vídeos</p>
-            </button>
-            <button type="button">
-              <RiMusic2Line color="#350668" size="1.5rem" />
-              <p>Releases</p>
-            </button>
-          </nav>
-          <button type="button">
-            <RiLogoutBoxRLine
-              color="#FFFFFF"
-              size="2rem"
-              onClick={handleLogout}
-            />
-          </button>
-        </DrawerContent>
-      </Drawer>
+      <DrawerMenu isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
       <Content>
         <div>
           <p>
