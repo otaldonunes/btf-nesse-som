@@ -9,7 +9,7 @@ const postSchema = yup.object().shape({
 
 export async function validatePostData(
   title: string,
-  content: HTMLElement,
+  content: string,
   author: string,
   tags: Array<string>,
 ): Promise<boolean> {

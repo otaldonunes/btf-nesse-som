@@ -13,7 +13,7 @@ interface postsData {
 interface postProps {
   title: string;
   slug: string | string[];
-  content: HTMLElement;
+  content: string;
   author: string;
   updatedAt?: string;
   tags: Array<string>;
@@ -22,7 +22,7 @@ interface postProps {
 export async function updatePostById(
   slug: string,
   title: string,
-  content: HTMLElement,
+  content: string,
   author: string,
   tags: Array<string>,
 ): Promise<postsData> {
