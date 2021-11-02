@@ -1,14 +1,16 @@
 import styled from 'styled-components';
-import { shade } from 'polished';
-
-const footer = '#350668';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  height: 90%;
   gap: 1rem;
+
+  span {
+    color: var(--footer);
+    font-size: 3rem;
+  }
 
   &:last-child {
     padding: 2rem 0;
@@ -23,6 +25,10 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1rem;
+
+  .disabled {
+    cursor: not-allowed;
+  }
 
   a {
     width: 100%;

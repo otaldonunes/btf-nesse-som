@@ -32,7 +32,7 @@ export const Container = styled.main`
 `;
 
 export const Content = styled.div`
-  background: #fffffc;
+  background: var(--gray);
   height: 100%;
   width: 100%;
   padding: 6rem;
@@ -42,7 +42,9 @@ export const Content = styled.div`
   align-items: center;
 
   .container {
+    background: var(--white);
     width: 80%;
+    height: 100%;
     border: 3px solid var(--footer);
     padding: 2rem;
     border-radius: 2rem;

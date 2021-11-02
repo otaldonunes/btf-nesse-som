@@ -27,7 +27,22 @@ export function DataTable({ data, isLoading, error, option }: dataTableProps) {
   return (
     <Container>
       {isLoading ? (
-        <p>Carregando...</p>
+        <>
+          <Content>
+            {[...Array(5)].map((_, index) => (
+              <a key={index} className="disabled">
+                <RiFileTextFill />
+                Carregando...
+              </a>
+            ))}
+          </Content>
+          <Pagination
+            nextPage={() => {}}
+            prevPage={() => {}}
+            page={1}
+            totalPages={1}
+          />
+        </>
       ) : error ? (
         <p>Ops... estamos com alguns problemas, tente novamente mais tarde!</p>
       ) : (
