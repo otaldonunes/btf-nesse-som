@@ -38,7 +38,9 @@ export function DrawerMenu({ isDrawerOpen, toggleDrawer }: DrawerMenuProps) {
     >
       <Container>
         <div className="imageContent">
-          <img src={logo} alt="logo" />
+          <Link href="/">
+            <img src={logo} alt="logo" />
+          </Link>
         </div>
         <nav>
           <Link href="/adm/posts">

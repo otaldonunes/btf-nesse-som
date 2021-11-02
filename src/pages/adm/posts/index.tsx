@@ -1,15 +1,18 @@
 import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
+import { usePosts } from '@hooks/usePosts';
 import React, { useState } from 'react';
 import { Container, Content } from './styles';
-import bg1 from '@assets/images/bg1.svg';
 import 'react-modern-drawer/dist/index.css';
 import { RiMenuFill } from 'react-icons/ri';
 import { DrawerMenu } from '@components/Adm/DrawerMenu';
+import { HeaderComponent } from '@components/Adm/HeaderComponent';
+import { DataTable } from '@components/Adm/DataTable';
 
-export default function Admin() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+export default function AdminPosts() {
+  const { data, isLoading, error } = usePosts();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setIsDrawerOpen((prevState) => !prevState);
@@ -24,13 +27,17 @@ export default function Admin() {
       ) : null}
       <DrawerMenu isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
       <Content>
-        <div>
-          <p>
-            Olá, <span>Admin</span>!
-          </p>
-          <img
-            src={bg1}
-            alt="Pra cego ver: Ilustração de um garoto usando um notebook."
+        <div className="container">
+          <HeaderComponent
+            title="Publicações"
+            option="posts"
+            action="Criar Post"
+          />
+          <DataTable
+            data={data}
+            isLoading={isLoading}
+            error={error}
+            option="posts"
           />
         </div>
       </Content>

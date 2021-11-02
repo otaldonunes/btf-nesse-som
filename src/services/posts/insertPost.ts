@@ -14,7 +14,7 @@ interface postProps {
   readonly _id: string;
   title: string;
   readonly slug: string;
-  content: HTMLElement;
+  content: string;
   author: string;
   readonly createdAt: string;
   updatedAt?: string;
@@ -23,7 +23,7 @@ interface postProps {
 
 export async function insertPost(
   title: string,
-  content: HTMLElement,
+  content: string,
   author: string,
   tags: Array<string>,
 ): Promise<postsData> {
