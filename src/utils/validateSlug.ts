@@ -4,7 +4,7 @@ const slugSchema = yup.object().shape({
   slug: yup.string().required(),
 });
 
-export async function validateSlug(slug: string): Promise<boolean> {
+export async function validateSlug(slug: string | string[]): Promise<boolean> {
   const isValid = await slugSchema.isValid({ slug });
 
   if (!isValid) {

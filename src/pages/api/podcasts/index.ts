@@ -1,47 +1,53 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { validateToken } from '@utils/validateToken';
-import { insertPost } from '@services/posts/insertPost';
-import { getPosts } from '@services/posts/getPosts';
+import { insertPodcast } from '@services/podcasts/insertPodcast';
+import { getPodcasts } from '@services/podcasts/getPodcasts';
 
-interface postProps {
+interface podcastsProps {
   readonly _id: string;
   title: string;
   readonly slug: string;
-  content: string;
-  author: string;
+  description: string;
+  src: string;
   readonly createdAt: string;
   updatedAt?: string;
   tags: Array<string>;
   image: string;
 }
 
-export default async function handlerPosts(
+export default async function handlerPodcasts(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   const { method } = req;
 
-  const getAllPosts = async (res: NextApiResponse) => {
+  const getAllPodcasts = async (res: NextApiResponse) => {
     try {
-      const posts = await getPosts();
+      const podcasts = await getPodcasts();
 
-      return res.status(200).json(posts);
+      return res.status(200).json(podcasts);
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
   };
 
-  const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
+  const createPodcast = async (req: NextApiRequest, res: NextApiResponse) => {
     const { authorization } = req.headers;
-    const { title, content, author, tags, image }: postProps = req.body;
+    const { title, description, src, tags, image }: podcastsProps = req.body;
 
     try {
       validateToken(authorization);
 
       try {
-        const newPost = await insertPost(title, content, author, tags, image);
+        const newPodcast = await insertPodcast(
+          title,
+          description,
+          src,
+          tags,
+          image,
+        );
 
-        return res.status(201).json(newPost.data);
+        return res.status(201).json(newPodcast.data);
       } catch (err) {
         return res.status(400).json({ message: err.message });
       }
@@ -52,9 +58,9 @@ export default async function handlerPosts(
 
   switch (method) {
     case 'GET':
-      return getAllPosts(res);
+      return getAllPodcasts(res);
     case 'POST':
-      return createPost(req, res);
+      return createPodcast(req, res);
     default:
       return res.status(405).json({ message: 'Method not allowed' });
   }

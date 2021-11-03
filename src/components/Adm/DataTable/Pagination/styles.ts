@@ -6,7 +6,6 @@ export const Container = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.5rem;
 
   p {
     color: var(--footer);

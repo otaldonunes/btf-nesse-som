@@ -27,25 +27,44 @@ export function DataTable({ data, isLoading, error, option }: dataTableProps) {
   return (
     <Container>
       {isLoading ? (
-        <p>Carregando...</p>
+        <>
+          <Content>
+            {[...Array(5)].map((_, index) => (
+              <a key={index} className="disabled">
+                <RiFileTextFill />
+                Carregando...
+              </a>
+            ))}
+          </Content>
+          <Pagination
+            nextPage={() => {}}
+            prevPage={() => {}}
+            page={1}
+            totalPages={1}
+          />
+        </>
       ) : error ? (
-        <p>Ops... estamos com alguns problemas, tente novamente mais tarde!</p>
+        <p className="error">Ops... estamos com alguns problemas, tente novamente mais tarde!</p>
       ) : (
         <>
           <Content>
-            {data
-              .slice(firstContentIndex, lastContentIndex)
-              .map((item: any) => (
-                <Link
-                  href={`/adm/${option}/edit?id=${item.slug}`}
-                  key={item.slug}
-                >
-                  <a>
-                    <RiFileTextFill />
-                    {item.title}
-                  </a>
-                </Link>
-              ))}
+            {data.length > 0 ? (
+              data
+                .slice(firstContentIndex, lastContentIndex)
+                .map((item: any) => (
+                  <Link
+                    href={`/adm/${option}/edit?id=${item.slug}`}
+                    key={item.slug}
+                  >
+                    <a>
+                      <RiFileTextFill />
+                      {item.title}
+                    </a>
+                  </Link>
+                ))
+            ) : (
+              <p className="error">Nenhum item encontrado!</p>
+            )}
           </Content>
           <Pagination
             nextPage={nextPage}

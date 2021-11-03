@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
-import { usePosts } from '@hooks/usePosts';
+import { usePodcasts } from '@hooks/usePodcasts';
 import React, { useState } from 'react';
 import { Container, Content } from './styles';
 import 'react-modern-drawer/dist/index.css';
@@ -10,10 +10,10 @@ import { DrawerMenu } from '@components/Adm/DrawerMenu';
 import { HeaderComponent } from '@components/Adm/HeaderComponent';
 import { DataTable } from '@components/Adm/DataTable';
 
-export default function AdminPosts() {
-  const { data, isLoading, error } = usePosts();
+export default function AdminPodcasts() {
+  const { data, isLoading, error } = usePodcasts();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const option = 'posts';
+  const option = 'podcasts';
 
   const toggleDrawer = () => {
     setIsDrawerOpen((prevState) => !prevState);
@@ -30,9 +30,9 @@ export default function AdminPosts() {
       <Content>
         <div className="container">
           <HeaderComponent
-            title="Publicações"
+            title="Podcasts"
             option={option}
-            action="Criar Post"
+            action="Criar Podcast"
           />
           <DataTable
             data={data}

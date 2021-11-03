@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
 import { api } from '@services/api';
+import { dateFormat } from '@utils/dateFormat';
 
 interface postProps {
   data: Post[];
@@ -33,12 +32,8 @@ export async function getUsers() {
           slug: post.slug,
           content: post.content,
           author: post.author,
-          createdAt: format(new Date(Number(post.createdAt)), 'Pp', {
-            locale: ptBR,
-          }),
-          updatedAt: format(new Date(Number(post.updatedAt)), 'Pp', {
-            locale: ptBR,
-          }),
+          createdAt: dateFormat(post.createdAt),
+          updatedAt: dateFormat(post.updatedAt),
           tags: post.tags,
         };
       }
@@ -49,9 +44,7 @@ export async function getUsers() {
         slug: post.slug,
         content: post.content,
         author: post.author,
-        createdAt: format(new Date(Number(post.createdAt)), 'Pp', {
-          locale: ptBR,
-        }),
+        createdAt: dateFormat(post.createdAt),
         tags: post.tags,
       };
     });

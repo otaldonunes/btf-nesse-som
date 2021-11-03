@@ -1,54 +1,54 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { validateToken } from '@utils/validateToken';
-import { getPosts } from '@services/posts/getPosts';
-import { updatePostById } from '@services/posts/updatePostById';
-import { deletePostById } from '@services/posts/deletePostById';
+import { getPodcasts } from '@services/podcasts/getPodcasts';
+import { updatePodcastById } from '@services/podcasts/updatePodcastById';
+import { deletePodcastById } from '@services/podcasts/deletePodcastById';
 
 interface reqProps {
   title: string;
-  content: string;
-  author: string;
+  description: string;
+  src: string;
   tags: Array<string>;
   image: string;
 }
 
-export default async function handlerPosts(
+export default async function handlerPodcasts(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   const { method } = req;
 
-  const getPostById = async (req: NextApiRequest, res: NextApiResponse) => {
+  const getPodcastById = async (req: NextApiRequest, res: NextApiResponse) => {
     const { slug } = req.query;
 
     try {
-      const post = await getPosts(slug);
+      const podcast = await getPodcasts(slug);
 
-      return res.status(200).json(post);
+      return res.status(200).json(podcast.data);
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
   };
 
-  const updatePost = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { title, content, author, tags, image }: reqProps = req.body;
+  const updatePodcast = async (req: NextApiRequest, res: NextApiResponse) => {
+    const { title, description, src, tags, image }: reqProps = req.body;
     const { authorization } = req.headers;
-    const { slug } = req.query;
+    const { slug }: { slug?: string | string[] } = req.query;
 
     try {
       validateToken(authorization);
 
       try {
-        const updatedPost = await updatePostById(
+        const updatedPodcast = await updatePodcastById(
           slug,
           title,
-          content,
-          author,
+          description,
+          src,
           tags,
           image,
         );
 
-        return res.status(201).json(updatedPost);
+        return res.status(201).json(updatedPodcast.data);
       } catch (err) {
         return res.status(500).json({ message: err.message });
       }
@@ -57,7 +57,7 @@ export default async function handlerPosts(
     }
   };
 
-  const deletePost = async (req: NextApiRequest, res: NextApiResponse) => {
+  const deletePodcast = async (req: NextApiRequest, res: NextApiResponse) => {
     const { authorization } = req.headers;
     const { slug } = req.query;
 
@@ -65,9 +65,9 @@ export default async function handlerPosts(
       validateToken(authorization);
 
       try {
-        const deletedPost = await deletePostById(slug);
+        const deletedPodcast = await deletePodcastById(slug);
 
-        return res.status(200).json(deletedPost);
+        return res.status(200).json(deletedPodcast.data);
       } catch (err) {
         return res.status(500).json({ message: err.message });
       }
@@ -78,11 +78,11 @@ export default async function handlerPosts(
 
   switch (method) {
     case 'GET':
-      return getPostById(req, res);
+      return getPodcastById(req, res);
     case 'PUT':
-      return updatePost(req, res);
+      return updatePodcast(req, res);
     case 'DELETE':
-      return deletePost(req, res);
+      return deletePodcast(req, res);
     default:
       return res.status(405).json({ message: 'Method not allowed' });
   }
