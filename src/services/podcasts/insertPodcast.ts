@@ -4,48 +4,48 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { query as q } from 'faunadb';
 import { fauna } from '@services/fauna';
-import { validatePostData } from '@utils/validatePostData';
+import { validatePodcastData } from '@utils/validatePodcastData';
 import { cloudinary } from '@services/cloudinary';
 
-interface postsData {
-  data: postProps;
+interface podcastData {
+  data: podcastProps;
 }
 
-interface postProps {
+interface podcastProps {
   readonly _id: string;
   title: string;
   readonly slug: string;
-  content: string;
-  author: string;
+  description: string;
+  src: string;
   readonly createdAt: string;
   updatedAt?: string;
   tags: Array<string>;
-  image: string;
+  image: Promise<string>;
 }
 
-export async function insertPost(
+export async function insertPodcast(
   title: string,
-  content: string,
-  author: string,
+  description: string,
+  src: string,
   tags: Array<string>,
   image: string,
-): Promise<postsData> {
-  await validatePostData(title, content, author, tags, image);
+): Promise<podcastData> {
+  await validatePodcastData(title, description, src, tags, image);
 
-  const post: postsData = {
+  const podcast: podcastData = {
     data: {
       _id: uuidv4(),
       title,
       slug: slugify(title),
-      content,
-      author,
+      description,
+      src,
       createdAt: format(new Date(), 'T', { locale: ptBR }),
       tags,
-      image: await cloudinary(image),
+      image: cloudinary(image),
     },
   };
 
-  await fauna.query(q.Create(q.Collection('posts'), post));
+  await fauna.query(q.Create(q.Collection('podcasts'), podcast));
 
-  return post;
+  return podcast;
 }

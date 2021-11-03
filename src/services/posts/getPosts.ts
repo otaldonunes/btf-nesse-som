@@ -3,7 +3,7 @@ import { fauna } from '@services/fauna';
 import { validateSlug } from '@utils/validateSlug';
 
 interface postsData {
-  data: postProps;
+  data: postProps[];
 }
 
 interface postProps {
@@ -15,6 +15,7 @@ interface postProps {
   readonly createdAt: string;
   updatedAt?: string;
   tags: Array<string>;
+  image: string;
 }
 
 export async function getPosts(
@@ -34,11 +35,11 @@ export async function getPosts(
   await validateSlug(slug);
 
   try {
-    const post: postProps = await fauna.query(
+    const post: postsData = await fauna.query(
       q.Get(q.Match(q.Index('post_by_slug'), slug)),
     );
 
-    return post;
+    return post.data;
   } catch {
     throw new Error('Post not found');
   }

@@ -18,7 +18,7 @@ export function Pagination({
       <button type="button">
         <RiArrowLeftSLine color="#FFFFFF" size="2rem" onClick={prevPage} />
       </button>
-      <p>{`${page} de ${totalPages}`}</p>
+      <p>{totalPages === 0 ? `0 de 0` : `${page} de ${totalPages}`}</p>
       <button type="button">
         <RiArrowRightSLine color="#FFFFFF" size="2rem" onClick={nextPage} />
       </button>

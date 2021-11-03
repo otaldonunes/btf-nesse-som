@@ -7,6 +7,11 @@ export const Container = styled.div`
   height: 90%;
   gap: 1rem;
 
+  .error {
+    color: var(--footer);
+    font-size: 2rem;
+  }
+
   span {
     color: var(--footer);
     font-size: 3rem;

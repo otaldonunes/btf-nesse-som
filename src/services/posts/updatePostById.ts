@@ -6,9 +6,9 @@ import { fauna } from '@services/fauna';
 import { validatePostData } from '@utils/validatePostData';
 import { validateSlug } from '@utils/validateSlug';
 
-interface postsData {
-  data: postProps;
-}
+type postsData = {
+  data: postProps[];
+};
 
 interface postProps {
   title: string;
@@ -17,16 +17,18 @@ interface postProps {
   author: string;
   updatedAt?: string;
   tags: Array<string>;
+  image: string;
 }
 
 export async function updatePostById(
-  slug: string,
+  slug: string | string[],
   title: string,
   content: string,
   author: string,
   tags: Array<string>,
-): Promise<postsData> {
-  await validatePostData(title, content, author, tags);
+  image: string,
+) {
+  await validatePostData(title, content, author, tags, image);
   await validateSlug(slug);
 
   const post: postsData = {
@@ -37,10 +39,16 @@ export async function updatePostById(
       author,
       updatedAt: format(new Date(), 'T', { locale: ptBR }),
       tags,
+      image,
     },
   };
 
-  await fauna.query(q.Update(q.Ref(q.Collection('posts'), slug), post));
+  await fauna.query(
+    q.Update(
+      q.Select(['ref'], q.Get(q.Match(q.Index('post_by_slug'), slug))),
+      post,
+    ),
+  );
 
-  return post;
+  return post.data;
 }
